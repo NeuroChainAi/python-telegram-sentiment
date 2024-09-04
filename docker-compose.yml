@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # PostgreSQL container
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: your_user
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: your_database
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Telegram bot container
+  telegram-bot:
+    build: ./bot  # Path to the bot folder where the Dockerfile is located
+    environment:
+      DATABASE_URL: postgres://your_user:your_password@postgres/your_database  # Database connection string for the bot
+      NEUROCHAIN_API_KEY: your-neurochainai-api-key
+      TELEGRAM_API_KEY: your_telegram_api_key
+    depends_on:
+      - postgres  # Ensure PostgreSQL starts before the bot
+    volumes:
+      - ./bot:/app  # Mount the bot folder to the container
+    restart: always
+
+volumes:
+  postgres_data:
+    driver: local
