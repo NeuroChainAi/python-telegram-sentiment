@@ -20,6 +20,7 @@ services:
       DATABASE_URL: postgres://your_user:your_password@postgres/your_database  # Database connection string for the bot
       NEUROCHAIN_API_KEY: your-neurochainai-api-key
       TELEGRAM_API_KEY: your_telegram_api_key
+      PYTHONUNBUFFERED: 1  # Add this line for unbuffered logging
     depends_on:
       - postgres  # Ensure PostgreSQL starts before the bot
     volumes:
